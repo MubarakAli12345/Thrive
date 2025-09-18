@@ -1,42 +1,26 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { Button } from '@shopify/polaris';
+import { useEffect, useState } from 'react';
 
+export default function App() {
+  const [productId, setProductId] = useState<string | null>(null);
+  const [title, setTitle] = useState<string | null>(null);
 
-function App() {
-  const [count, setCount] = useState(0)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const pid = params.get('product');
+    const ptitle = params.get('title');
+
+    console.log('✅ Product ID from URL:', pid);
+    console.log('✅ Product Title from URL:', ptitle);
+
+    setProductId(pid);
+    setTitle(ptitle);
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1 className='text-2xl text-red-500'>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-
-       <div>
-      <h1>Welcome to Shopify App</h1>
-      <Button onClick={() => alert('Button clicked!')}>Click Me</Button>
+    <div>
+      <h1>Product Customizer</h1>
+      <p>Product ID: {productId}</p>
+      <p>Title: {title}</p>
     </div>
-    </>
-  )
+  );
 }
-
-export default App
