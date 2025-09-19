@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import Loader from './components/loader';
 
 export default function App() {
   const [productId, setProductId] = useState<string | null>(null);
@@ -42,7 +43,7 @@ export default function App() {
 </div>
 
 
-      {isLoading && <p>Loading product details...</p>}
+      {isLoading &&<div className='flex justify-center'> <Loader/></div>}
 
       {!isLoading && (
 <>
