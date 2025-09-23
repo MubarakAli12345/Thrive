@@ -1,13 +1,28 @@
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'   // if you use React
+import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  // 👇 This is the key line to make assets load correctly through /apps/customizer
   base: './',
-
   plugins: [
-    react(),        // include if you are using React
+    react(),
     tailwindcss(),
   ],
+  build: {
+    chunkSizeWarningLimit: 1000, // Increase size limit to 1000kb if needed
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Split vendor chunks
+          'react-vendor': ['react', 'react-dom'],
+          'konva-vendor': ['konva', 'react-konva'],
+          'query-vendor': ['@tanstack/react-query'],
+        },
+      },
+    },
+    sourcemap: false, // Disable sourcemaps in production to reduce bundle size
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'konva', 'react-konva', '@tanstack/react-query']
+  }
 })
